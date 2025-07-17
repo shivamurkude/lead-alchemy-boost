@@ -5,6 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: mode === 'production' ? "/lead-alchemy-boost/" : "/", // Base path only for production
   server: {
     host: "::",
     port: 8080,

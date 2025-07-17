@@ -19,7 +19,7 @@ const Index = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const whatsappNumber = "+1234567890"; // Replace with your actual WhatsApp number
+  const whatsappNumber = "+919922593127"; // Replace with your actual WhatsApp number
   const whatsappMessage = "Hi! I'm interested in your lead enrichment services and would like to get leads for my business.";
 
   const handleWhatsAppClick = () => {
