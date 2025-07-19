@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { X, Loader2, CheckCircle, MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { trackLeadFormView, trackFormStart, trackFormSubmission, trackWhatsAppRedirect } from '@/utils/facebookPixel';
+import { trackLeadFormView as gaTrackLeadFormView, trackLeadFormStart as gaTrackLeadFormStart, trackLeadFormSubmission as gaTrackLeadFormSubmission, trackWhatsAppRedirect as gaTrackWhatsAppRedirect, trackFunnelStep } from '@/utils/googleAnalytics';
 
 interface ContactFormProps {
   isOpen: boolean;
@@ -33,7 +34,9 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
   // Track form view when opened
   useEffect(() => {
     if (isOpen) {
-      trackLeadFormView();
+      trackLeadFormView(); // Facebook Pixel
+      gaTrackLeadFormView(); // Google Analytics
+      trackFunnelStep('Form Opened', 2); // Track funnel step
     }
   }, [isOpen]);
 
@@ -45,7 +48,9 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
     
     // Track form start when user starts typing
     if (field === 'name' && value.length === 1) {
-      trackFormStart();
+      trackFormStart(); // Facebook Pixel
+      gaTrackLeadFormStart(); // Google Analytics
+      trackFunnelStep('Form Started', 3); // Track funnel step
     }
   };
 
@@ -158,14 +163,18 @@ I would like to get leads for my business.`;
       
       if (success) {
         // Track successful form submission
-        trackFormSubmission(formData);
+        trackFormSubmission(formData); // Facebook Pixel
+        gaTrackLeadFormSubmission(formData); // Google Analytics
+        trackFunnelStep('Form Submitted', 4); // Track funnel step
         
         setIsSubmitted(true);
         toast.success('Form submitted successfully!');
         
         // Redirect to WhatsApp after a short delay
         setTimeout(() => {
-          trackWhatsAppRedirect();
+          trackWhatsAppRedirect(); // Facebook Pixel
+          gaTrackWhatsAppRedirect(); // Google Analytics
+          trackFunnelStep('WhatsApp Redirect', 5); // Track funnel step
           redirectToWhatsApp();
           onClose();
         }, 2000);
