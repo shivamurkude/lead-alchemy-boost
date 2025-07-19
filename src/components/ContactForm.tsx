@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { X, Loader2, CheckCircle, MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import { trackLeadFormView, trackFormStart, trackFormSubmission, trackWhatsAppRedirect } from '@/utils/facebookPixel';
 
 interface ContactFormProps {
   isOpen: boolean;
@@ -29,11 +30,23 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // Track form view when opened
+  useEffect(() => {
+    if (isOpen) {
+      trackLeadFormView();
+    }
+  }, [isOpen]);
+
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
+    
+    // Track form start when user starts typing
+    if (field === 'name' && value.length === 1) {
+      trackFormStart();
+    }
   };
 
   const validateForm = (): boolean => {
@@ -144,11 +157,15 @@ I would like to get leads for my business.`;
       const success = await submitToGoogleSheets(formData);
       
       if (success) {
+        // Track successful form submission
+        trackFormSubmission(formData);
+        
         setIsSubmitted(true);
         toast.success('Form submitted successfully!');
         
         // Redirect to WhatsApp after a short delay
         setTimeout(() => {
+          trackWhatsAppRedirect();
           redirectToWhatsApp();
           onClose();
         }, 2000);

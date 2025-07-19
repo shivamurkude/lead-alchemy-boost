@@ -7,10 +7,14 @@ import AnimatedBackground from '@/components/AnimatedBackground';
 import FeatureCards from '@/components/FeatureCards';
 import TestimonialSection from '@/components/TestimonialSection';
 import ContactForm from '@/components/ContactForm';
+import { useFacebookPixel } from '@/hooks/useFacebookPixel';
 
 const Index = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+
+  // Initialize Facebook Pixel tracking
+  const { trackCTAClick } = useFacebookPixel('LeadNexio Homepage');
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -22,6 +26,7 @@ const Index = () => {
   }, []);
 
   const handleContactClick = () => {
+    trackCTAClick('Contact Us Button');
     setIsContactFormOpen(true);
   };
 
@@ -82,7 +87,10 @@ const Index = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <Button 
-              onClick={handleContactClick}
+              onClick={() => {
+                trackCTAClick('Hero Get Started Button');
+                handleContactClick();
+              }}
               className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-2xl"
             >
               Get Started
@@ -190,7 +198,10 @@ const Index = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button 
-                onClick={handleContactClick}
+                onClick={() => {
+                  trackCTAClick('CTA Get Started Button');
+                  handleContactClick();
+                }}
                 className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-2xl"
               >
                 <MessageCircle className="mr-2 w-5 h-5" />
