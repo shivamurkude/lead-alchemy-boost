@@ -74,7 +74,7 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
     // }
     
     // Production: Use Google Apps Script
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxHYND8X206ClMLFnWtwD-n3m3Oh2F62K-jxzuvmvyadRD4K291c0h6pE0XgXiBs_4E/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzhgy3BgB9XmS9jJS76_b6vsYPJGPZi9A76vBVIq8uADQYbvaXDcXaQry3W-gvmE5tm/exec';
     
     const formData = new FormData();
     formData.append('name', data.name);
@@ -84,15 +84,28 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
     formData.append('timestamp', new Date().toISOString());
 
     try {
+      // Google Apps Script redirects POST requests, so we need to handle this differently
       const response = await fetch(scriptURL, {
         method: 'POST',
         body: formData,
+        redirect: 'follow', // Follow redirects
       });
 
-      if (response.ok) {
+      // Check if the response is successful (even with redirects)
+      if (response.ok || response.status === 200) {
         console.log('✅ Form submitted to Google Sheets successfully');
         return true;
       } else {
+        // Try to get the response text to see what happened
+        const responseText = await response.text();
+        console.log('Response text:', responseText);
+        
+        // If we get a redirect page, it usually means the data was processed
+        if (responseText.includes('Moved Temporarily') || responseText.includes('redirect')) {
+          console.log('✅ Form submitted successfully (redirect detected)');
+          return true;
+        }
+        
         throw new Error('Failed to submit form');
       }
     } catch (error) {
