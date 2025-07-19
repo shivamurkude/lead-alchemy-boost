@@ -106,6 +106,28 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
       console.log('Purpose:', data.purpose);
       console.log('Timestamp:', new Date().toISOString());
       
+      // Also try to send via email as fallback
+      try {
+        const emailSubject = encodeURIComponent('New LeadNexio Contact Form Submission');
+        const emailBody = encodeURIComponent(`
+New contact form submission:
+
+Name: ${data.name}
+Email: ${data.email}
+Phone: ${data.phone}
+Purpose: ${data.purpose}
+Timestamp: ${new Date().toISOString()}
+
+Submitted from: ${window.location.href}
+        `);
+        
+        // Open default email client with pre-filled data
+        window.open(`mailto:your-email@example.com?subject=${emailSubject}&body=${emailBody}`);
+        console.log('📧 Email client opened as fallback');
+      } catch (emailError) {
+        console.log('📧 Email fallback failed:', emailError);
+      }
+      
       // Still return true so the user experience continues
       return true;
     }
