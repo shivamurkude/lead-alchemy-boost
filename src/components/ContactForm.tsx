@@ -57,7 +57,22 @@ const ContactForm = ({ isOpen, onClose }: ContactFormProps) => {
   };
 
   const submitToGoogleSheets = async (data: FormData) => {
-    // Google Apps Script Web App URL - you'll need to create this
+    // Check if we're in development mode
+    const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (isDevelopment) {
+      // In development, simulate successful submission
+      console.log('Development mode: Simulating form submission');
+      console.log('Form data:', data);
+      
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Always return true in development
+      return true;
+    }
+    
+    // Production: Use Google Apps Script
     const scriptURL = 'https://script.google.com/macros/s/AKfycbxHYND8X206ClMLFnWtwD-n3m3Oh2F62K-jxzuvmvyadRD4K291c0h6pE0XgXiBs_4E/exec';
     
     const formData = new FormData();

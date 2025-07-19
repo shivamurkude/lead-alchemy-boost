@@ -2,6 +2,14 @@
 // Deploy this as a web app to handle form submissions
 
 function doPost(e) {
+  // Set CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400'
+  };
+  
   try {
     // Get the form data
     const formData = e.parameter;
@@ -27,27 +35,52 @@ function doPost(e) {
     
     sheet.appendRow(rowData);
     
-    // Return success response
+    // Return success response with CORS headers
     return ContentService
       .createTextOutput(JSON.stringify({ success: true, message: 'Data saved successfully' }))
-      .setMimeType(ContentService.MimeType.JSON);
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeaders(headers);
       
   } catch (error) {
-    // Return error response
+    // Return error response with CORS headers
     return ContentService
       .createTextOutput(JSON.stringify({ 
         success: false, 
         message: 'Error saving data: ' + error.toString() 
       }))
-      .setMimeType(ContentService.MimeType.JSON);
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeaders(headers);
   }
 }
 
 function doGet(e) {
   // Handle GET requests (optional)
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400'
+  };
+  
   return ContentService
     .createTextOutput('LeadNexio Contact Form API is running')
-    .setMimeType(ContentService.MimeType.TEXT);
+    .setMimeType(ContentService.MimeType.TEXT)
+    .setHeaders(headers);
+}
+
+function doOptions(e) {
+  // Handle preflight OPTIONS requests
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400'
+  };
+  
+  return ContentService
+    .createTextOutput('')
+    .setMimeType(ContentService.MimeType.TEXT)
+    .setHeaders(headers);
 }
 
 // Function to set up the spreadsheet headers (run this once)
