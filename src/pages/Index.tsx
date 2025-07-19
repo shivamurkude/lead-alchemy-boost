@@ -6,9 +6,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import FeatureCards from '@/components/FeatureCards';
 import TestimonialSection from '@/components/TestimonialSection';
+import ContactForm from '@/components/ContactForm';
 
 const Index = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -19,12 +21,8 @@ const Index = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const whatsappNumber = "+919922593127"; // Replace with your actual WhatsApp number
-  const whatsappMessage = "Hi! I'm interested in your lead enrichment services and would like to get leads for my business.";
-
-  const handleWhatsAppClick = () => {
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-    window.open(url, '_blank');
+  const handleContactClick = () => {
+    setIsContactFormOpen(true);
   };
 
   return (
@@ -49,7 +47,7 @@ const Index = () => {
               <span className="text-xl font-bold">LeadNexio</span>
             </div>
             <Button 
-              onClick={handleWhatsAppClick}
+              onClick={handleContactClick}
               className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full transition-all duration-300 hover:scale-105"
             >
               <MessageCircle className="w-4 h-4 mr-2" />
@@ -84,10 +82,10 @@ const Index = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <Button 
-              onClick={handleWhatsAppClick}
+              onClick={handleContactClick}
               className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-2xl"
             >
-              Get Leads via WhatsApp
+              Get Started
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             <p className="text-sm text-gray-400">
@@ -192,11 +190,11 @@ const Index = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button 
-                onClick={handleWhatsAppClick}
+                onClick={handleContactClick}
                 className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-2xl"
               >
                 <MessageCircle className="mr-2 w-5 h-5" />
-                Get Leads via WhatsApp
+                Get Started
               </Button>
             </div>
             
@@ -232,6 +230,12 @@ const Index = () => {
           </div>
         </div>
       </footer>
+
+      {/* Contact Form Modal */}
+      <ContactForm 
+        isOpen={isContactFormOpen} 
+        onClose={() => setIsContactFormOpen(false)} 
+      />
     </div>
   );
 };
