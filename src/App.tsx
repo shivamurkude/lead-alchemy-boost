@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-// import "./utils/pixelDebugger"; // Import debug utility - Remove in production
+// Meta Pixel is handled by useFacebookPixel hook in individual components
 
 const queryClient = new QueryClient();
 

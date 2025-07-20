@@ -9,51 +9,11 @@ declare global {
 
 export const FB_PIXEL_ID = '595201590045404'; // Your Meta Pixel ID
 
-// Initialize Facebook Pixel
+// Initialize Facebook Pixel (only if not already initialized by HTML)
 export const initFacebookPixel = () => {
-  if (typeof window !== 'undefined') {
-    // Only initialize if not already done
-    if (window.fbq && window.fbq.loaded) {
-      console.log('Facebook Pixel already loaded');
-      return;
-    }
-
-    // Facebook Pixel Code
-    !(function (f: any, b: any, e: any, v: any, n: any, t: any, s: any) {
-      if (f.fbq) return;
-      n = f.fbq = function () {
-        n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-      };
-      if (!f._fbq) f._fbq = n;
-      n.push = n;
-      n.loaded = !0;
-      n.version = '2.0';
-      n.queue = [];
-      t = b.createElement(e);
-      t.async = !0;
-      t.src = v;
-      s = b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t, s);
-    })(
-      window,
-      document,
-      'script',
-      'https://connect.facebook.net/en_US/fbevents.js'
-    );
-
-    // Wait for pixel to load, then initialize
-    const checkPixelLoaded = () => {
-      if (window.fbq && window.fbq.loaded) {
-        window.fbq('init', FB_PIXEL_ID);
-        window.fbq('track', 'PageView');
-        console.log('Facebook Pixel initialized successfully');
-      } else {
-        setTimeout(checkPixelLoaded, 100);
-      }
-    };
-    
-    // Start checking after a short delay
-    setTimeout(checkPixelLoaded, 500);
+  if (typeof window !== 'undefined' && !window.fbq) {
+    // Only initialize if fbq doesn't exist (HTML handles initialization)
+    console.warn('Facebook Pixel should be initialized in HTML');
   }
 };
 

@@ -9,9 +9,7 @@ import TestimonialSection from '@/components/TestimonialSection';
 import ContactForm from '@/components/ContactForm';
 import { useFacebookPixel } from '@/hooks/useFacebookPixel';
 import { useGoogleAnalytics } from '@/hooks/useGoogleAnalytics';
-// import PixelTestPanel from '@/components/PixelTestPanel'; // Remove in production
-import MetaPixelTester from '@/components/MetaPixelTester';
-import SimplePixelTest from '@/components/SimplePixelTest';
+// Meta Pixel is handled by useFacebookPixel hook
 
 const Index = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -258,9 +256,7 @@ const Index = () => {
         onClose={() => setIsContactFormOpen(false)} 
       />
 
-      {/* Meta Pixel Testers - Remove these in production */}
-      <MetaPixelTester />
-      <SimplePixelTest />
+      {/* Meta Pixel tracking is handled automatically by useFacebookPixel hook */}
     </div>
   );
 };
