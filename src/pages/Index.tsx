@@ -10,6 +10,7 @@ import ContactForm from '@/components/ContactForm';
 import { useFacebookPixel } from '@/hooks/useFacebookPixel';
 import { useGoogleAnalytics } from '@/hooks/useGoogleAnalytics';
 // import PixelTestPanel from '@/components/PixelTestPanel'; // Remove in production
+import MetaPixelTester from '@/components/MetaPixelTester';
 
 const Index = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -256,8 +257,8 @@ const Index = () => {
         onClose={() => setIsContactFormOpen(false)} 
       />
 
-      {/* Pixel Test Panel - Remove this in production */}
-      {/* <PixelTestPanel /> */}
+      {/* Meta Pixel Tester - Remove this in production */}
+      <MetaPixelTester />
     </div>
   );
 };
