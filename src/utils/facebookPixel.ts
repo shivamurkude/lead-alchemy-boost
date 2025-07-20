@@ -12,6 +12,12 @@ export const FB_PIXEL_ID = '595201590045404'; // Your Meta Pixel ID
 // Initialize Facebook Pixel
 export const initFacebookPixel = () => {
   if (typeof window !== 'undefined') {
+    // Only initialize if not already done
+    if (window.fbq && window.fbq.loaded) {
+      console.log('Facebook Pixel already loaded');
+      return;
+    }
+
     // Facebook Pixel Code
     !(function (f: any, b: any, e: any, v: any, n: any, t: any, s: any) {
       if (f.fbq) return;
@@ -35,9 +41,19 @@ export const initFacebookPixel = () => {
       'https://connect.facebook.net/en_US/fbevents.js'
     );
 
-    // Initialize with your Pixel ID
-    window.fbq('init', FB_PIXEL_ID);
-    window.fbq('track', 'PageView');
+    // Wait for pixel to load, then initialize
+    const checkPixelLoaded = () => {
+      if (window.fbq && window.fbq.loaded) {
+        window.fbq('init', FB_PIXEL_ID);
+        window.fbq('track', 'PageView');
+        console.log('Facebook Pixel initialized successfully');
+      } else {
+        setTimeout(checkPixelLoaded, 100);
+      }
+    };
+    
+    // Start checking after a short delay
+    setTimeout(checkPixelLoaded, 500);
   }
 };
 
