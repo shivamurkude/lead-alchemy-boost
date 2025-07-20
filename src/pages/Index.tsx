@@ -9,6 +9,7 @@ import TestimonialSection from '@/components/TestimonialSection';
 import ContactForm from '@/components/ContactForm';
 import { useFacebookPixel } from '@/hooks/useFacebookPixel';
 import { useGoogleAnalytics } from '@/hooks/useGoogleAnalytics';
+// import PixelTestPanel from '@/components/PixelTestPanel'; // Remove in production
 
 const Index = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -254,6 +255,9 @@ const Index = () => {
         isOpen={isContactFormOpen} 
         onClose={() => setIsContactFormOpen(false)} 
       />
+
+      {/* Pixel Test Panel - Remove this in production */}
+      {/* <PixelTestPanel /> */}
     </div>
   );
 };

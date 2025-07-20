@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-export const FB_PIXEL_ID = 'YOUR_PIXEL_ID'; // Replace with your actual Pixel ID
+export const FB_PIXEL_ID = '595201590045404'; // Your Meta Pixel ID
 
 // Initialize Facebook Pixel
 export const initFacebookPixel = () => {
