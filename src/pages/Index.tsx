@@ -54,7 +54,19 @@ const Index = () => {
         <div className="container mx-auto px-6 py-4">
           <nav className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-pink-400 rounded-lg"></div>
+              <img 
+                src="/leadnexio-logo.png" 
+                alt="LeadNexio Logo" 
+                className="w-8 h-8 object-contain"
+                onError={(e) => {
+                  // Fallback to gradient if logo doesn't load
+                  const target = e.currentTarget as HTMLImageElement;
+                  target.style.display = 'none';
+                  const fallback = target.nextElementSibling as HTMLElement;
+                  if (fallback) fallback.style.display = 'block';
+                }}
+              />
+              <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-pink-400 rounded-lg hidden"></div>
               <span className="text-xl font-bold">LeadNexio</span>
             </div>
             <Button 
@@ -240,7 +252,19 @@ const Index = () => {
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-pink-400 rounded-lg"></div>
+              <img 
+                src="/leadnexio-logo.png" 
+                alt="LeadNexio Logo" 
+                className="w-8 h-8 object-contain"
+                onError={(e) => {
+                  // Fallback to gradient if logo doesn't load
+                  const target = e.currentTarget as HTMLImageElement;
+                  target.style.display = 'none';
+                  const fallback = target.nextElementSibling as HTMLElement;
+                  if (fallback) fallback.style.display = 'block';
+                }}
+              />
+              <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-pink-400 rounded-lg hidden"></div>
               <span className="text-xl font-bold">LeadNexio</span>
             </div>
             <div className="text-gray-400 text-sm">
