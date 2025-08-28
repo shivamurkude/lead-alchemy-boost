@@ -6,14 +6,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import FeatureCards from '@/components/FeatureCards';
 import TestimonialSection from '@/components/TestimonialSection';
-import ContactForm from '@/components/ContactForm';
 import { useFacebookPixel } from '@/hooks/useFacebookPixel';
 import { useGoogleAnalytics } from '@/hooks/useGoogleAnalytics';
 // Meta Pixel is handled by useFacebookPixel hook
 
 const Index = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
 
   // Initialize Facebook Pixel tracking
   const { trackCTAClick } = useFacebookPixel('LeadNexio Homepage');
@@ -30,10 +28,21 @@ const Index = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const handleContactClick = () => {
-    trackCTAClick('Contact Us Button'); // Facebook Pixel
-    gaTrackCTAClick('Contact Us Button', 'Header'); // Google Analytics
-    setIsContactFormOpen(true);
+  const redirectToWhatsApp = (buttonName: string, section: string) => {
+    // Track the CTA click
+    trackCTAClick(buttonName); // Facebook Pixel
+    gaTrackCTAClick(buttonName, section); // Google Analytics
+    
+    // WhatsApp number and message
+    const whatsappNumber = "+919922593127";
+    const message = `Hi! I'm interested in your lead enrichment services from LeadNexio. 
+
+I would like to get leads for my business and learn more about your services.
+
+Please help me get started!`;
+    
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
   };
 
   return (
@@ -70,11 +79,11 @@ const Index = () => {
               <span className="text-xl font-bold">LeadNexio</span>
             </div>
             <Button 
-              onClick={handleContactClick}
+              onClick={() => redirectToWhatsApp('Contact Us Button', 'Header')}
               className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full transition-all duration-300 hover:scale-105"
             >
               <MessageCircle className="w-4 h-4 mr-2" />
-              Contact Us
+              WhatsApp
             </Button>
           </nav>
         </div>
@@ -99,17 +108,13 @@ const Index = () => {
             
             <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
               Transform your business with bulk lead enrichment. Get verified contact data for 500M+ profiles. 
-              Don't have leads? We can provide them. Contact us on WhatsApp to get started and watch your pipeline grow by 300%.
+              Don't have leads? We can provide them. Click "Get Started" to connect with us on WhatsApp and watch your pipeline grow by 300%.
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <Button 
-              onClick={() => {
-                trackCTAClick('Hero Get Started Button'); // Facebook Pixel
-                gaTrackCTAClick('Hero Get Started Button', 'Hero Section'); // Google Analytics
-                handleContactClick();
-              }}
+              onClick={() => redirectToWhatsApp('Hero Get Started Button', 'Hero Section')}
               className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-2xl"
             >
               Get Started
@@ -212,20 +217,16 @@ const Index = () => {
             </h2>
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
               Join thousands of businesses already using our lead enrichment service. 
-              Contact us on WhatsApp to get started - no credit card required, just connect with us!
+              Click "Get Started" to connect with us on WhatsApp - no credit card required, just start the conversation!
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button 
-                onClick={() => {
-                  trackCTAClick('CTA Get Started Button'); // Facebook Pixel
-                  gaTrackCTAClick('CTA Get Started Button', 'CTA Section'); // Google Analytics
-                  handleContactClick();
-                }}
+                onClick={() => redirectToWhatsApp('CTA Get Started Button', 'CTA Section')}
                 className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-2xl"
               >
                 <MessageCircle className="mr-2 w-5 h-5" />
-                Get Started
+                Chat on WhatsApp
               </Button>
             </div>
             
@@ -273,12 +274,6 @@ const Index = () => {
           </div>
         </div>
       </footer>
-
-      {/* Contact Form Modal */}
-      <ContactForm 
-        isOpen={isContactFormOpen} 
-        onClose={() => setIsContactFormOpen(false)} 
-      />
 
       {/* Meta Pixel tracking is handled automatically by useFacebookPixel hook */}
     </div>
